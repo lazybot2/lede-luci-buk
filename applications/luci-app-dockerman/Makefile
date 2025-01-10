@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=Docker Manager interface for LuCI
-LUCI_DEPENDS:=+luci-compat +luci-lib-docker +luci-lib-ip +docker +dockerd +cgroupfs-mount +ttyd
+LUCI_DEPENDS:=+luci-compat +luci-lib-docker +luci-lib-ip +docker +dockerd +cgroupfs-mount +ttyd +docker-compose
 LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-dockerman
