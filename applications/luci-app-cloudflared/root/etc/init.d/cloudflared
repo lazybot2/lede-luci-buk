@@ -9,7 +9,7 @@ start_instance() {
         local enabled
 	config_get_bool enabled "$cfg" 'enabled' '0'
 	[ "$enabled" = "1" ] || return 1
-	local token custom_cmd cmdenabled
+	local token custom_cmd cmdenabled auto_update
 	local region='auto'
 	local protocol='auto'
 	local loglevel='info'
@@ -19,7 +19,7 @@ start_instance() {
 	config_get region "$cfg" 'region'
 	config_get custom_cmd "$cfg" 'custom_cmd'
 	config_get_bool cmdenabled "$cfg" 'cmdenabled'
-	
+	config_get_bool auto_update "$cfg" 'auto_update'
 	if [ ! -f "$PROG" ] ;then
 	 uci -q set cloudflared.@cloudflared[0].enabled=0 
 	 uci commit cloudflared 
@@ -47,7 +47,6 @@ start_instance() {
 	fi
 	procd_open_instance cloudflared
 	procd_set_param command $PROG
-	
 	if [ "$cmdenabled" = "1" ];  then
                   if [[ "$(grep "list custom_cmd" /etc/config/cloudflared | awk '{print $3}' | wc -l ) " -eq 1 ]]; then
                      procd_append_param command "$custom_cmd"
@@ -64,7 +63,11 @@ start_instance() {
 	     exit 1
 	   fi
 	   procd_append_param command tunnel
-	   procd_append_param command --no-autoupdate
+	   if [ "$auto_update" = "1" ]; then
+	   	procd_append_param command --autoupdate-freq 24h
+	   else
+		procd_append_param command --no-autoupdate
+	   fi
 	   procd_append_param command --logfile /tmp/cloudflared.info
 	   [ "$region" != "auto" ] && procd_append_param command --region "$region"
 	   [ "$loglevel" != "info" ] && procd_append_param command --loglevel "$loglevel"
@@ -99,3 +102,4 @@ stop_service() {
 service_triggers() {
 	procd_add_reload_trigger cloudflared
 }
+

@@ -15,6 +15,11 @@ e=t:option(Flag,"cmdenabled",translate("Custom CMD"),
 e.default=0
 e.rmempty=false
 
+e=t:option(Flag,"auto_update",translate("auto update"))
+e.default=0
+e.rmempty=false
+e:depends("cmdenabled", 0)
+
 cfbin = t:option(Value, "cfbin", translate("cloudflared program path"),
 	translate("Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name"))
 cfbin.placeholder = "/usr/bin/cloudflared"

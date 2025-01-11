@@ -10,19 +10,16 @@ e=t:option(Flag,"enabled",translate("Enable"))
 e.default=0
 e.rmempty=false
 
-o = t:option(Button, "btnrm", translate("版本"))
-o.inputtitle = translate("检测更新")
-o.description = translate("点击按钮开始检测更新，上方状态栏显示")
-o.inputstyle = "apply"
-o:depends("enabled", "1")
-o.write = function()
-  os.execute("rm -rf /tmp/cloudflared*.tag /tmp/cloudflared*.newtag")
-end
-
 e=t:option(Flag,"cmdenabled",translate("自定义启动参数"),
 	translate("使用自定义的启动参数，若不懂请勿开启"))
 e.default=0
 e.rmempty=false
+
+e=t:option(Flag,"auto_update",translate("打开更新检测"),
+	translate("打开自动更新"))
+e.default=0
+e.rmempty=false
+e:depends("cmdenabled", 0)
 
 cfbin = t:option(Value, "cfbin", translate("cloudflared程序路径"),
 	translate("自定义cloudflared的存放路径,确保填写完整的路径及cloudflared名称"))

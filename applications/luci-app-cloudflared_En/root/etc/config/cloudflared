@@ -1,5 +1,6 @@
 config cloudflared 'config'
 	option cmdenabled '0'
+	option auto_update '0'
 	option enabled '0'
      	option loglevel 'info'
      	option protocol 'auto'
