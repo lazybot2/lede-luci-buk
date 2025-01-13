@@ -4,12 +4,12 @@ XHR.poll(3, '<%=url([[admin]], [[vpn]], [[cloudflared]], [[status]])%>', null,
 		var tb = document.getElementById('cloudflared_status');
 		if (data && tb) {
 			var clientStatus = data.running ? "<span style='color:green;'> Run </span>" : "<span style='color:red;'> Stop </span>";
-                       var cfstaContent = data.running ? " time：" + "<span style='color:#DA70D6;'>" + data.cfsta + "</span>" : "";    
-                       var cfcpuContent = data.running ? "<br>" + "CPU：" + "<span style='color:#6A5ACD;'>" + data.cfcpu + "</span>" : "";  
-                       var cframContent = data.running ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "&nbsp;&nbsp;&nbsp;&nbsp;Man：" + "<span style='color:#0000CD;'>" + data.cfram + "</span>" : ""; 
+                       var cfstaContent = data.running ? " Time：" + "<span style='color:#DA70D6;'>" + data.cfsta + "</span>" : "";    
+                       var cfcpuContent = data.running ? "<br>" + "Cpu：" + "<span style='color:#6A5ACD;'>" + data.cfcpu + "</span>" : "";  
+                       var cframContent = data.running ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "&nbsp;&nbsp;&nbsp;&nbsp;Mem：" + "<span style='color:#0000CD;'>" + data.cfram + "</span>" : ""; 
                        var cftagContent = data.running ? "<br>" + "Now Vertion：" + "<span style='color:#CD853F;'>" + data.cftag + "</span>" : ""; 
-                       var cfnewtagContent = data.running ? "&nbsp;" + "latest：" + "<span style='color:#FFA500;'>" + data.cfnewtag + "</span>" : "";    
-                       tb.innerHTML = "<b><em>cloudflared " + clientStatus + cfstaContent + cfcpuContent + cframContent + cftagContent + cfnewtagContent + "</b></em>";          
+                       var cfnewtagContent = data.running ? "&nbsp;" + "Latest：" + "<span style='color:#FFA500;'>" + data.cfnewtag + "</span>" : "";    
+                       tb.innerHTML = "<b><em>Cloudflared " + clientStatus + cfstaContent + cfcpuContent + cframContent + cftagContent + cfnewtagContent + "</b></em>";          
         }
     }
 );

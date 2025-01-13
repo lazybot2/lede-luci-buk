@@ -24,7 +24,7 @@ local tagfile = io.open("/tmp/cloudflared_time", "r")
 	local tagcontent = tagfile:read("*all")
 	tagfile:close()
 	if tagcontent and tagcontent ~= "" then
-        os.execute("start_time=$(cat /tmp/cloudflared_time) && time=$(($(date +%s)-start_time)) && day=$((time/86400)) && [ $day -eq 0 ] && day='' || day=${day}天 && time=$(date -u -d @${time} +'%H小时%M分%S秒') && echo $day $time > /tmp/command_cloudflared 2>&1")
+        os.execute("start_time=$(cat /tmp/cloudflared_time) && time=$(($(date +%s)-start_time)) && day=$((time/86400)) && [ $day -eq 0 ] && day='' || day=${day}day && time=$(date -u -d @${time} +'%H:%M:%S') && echo $day $time > /tmp/command_cloudflared 2>&1")
         local command_output_file = io.open("/tmp/command_cloudflared", "r")
         if command_output_file then
             e.cfsta = command_output_file:read("*all")

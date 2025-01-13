@@ -74,4 +74,4 @@ msgid "Base Setting"
 msgstr "基本设置"
 
 msgid "Info"
-msgstr "接口信息"
+msgstr "日志记录"
