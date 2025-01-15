@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-03-19 04:16+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"openwrt/luciapplicationsdockerman/zh_Hans/>\n"
+"Language: zh_Hans\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0; \n"
+"X-Generator: Weblate 4.10-dev\n"
+
+msgid "Cloudflare's tunnel client - formerly known as Argo Tunnel, free intranet penetration, enabling external network access to intranet services"
+msgstr “Cloudflare的隧道用戶端 - 以前稱為 Argo Tunnel ，免費的內網穿透，實現內網服務的外網訪問”
+
+msgid "Enable"
+msgstr “開啟”
+
+msgid "Custom CMD"
+msgstr “自定義啟動參數”
+
+msgid "Use custom commands. If you don't understand, don't enable it."
+msgstr “使用自定義的啟動參數，若不懂請勿開啟。”
+
+msgid "Auto update"
+msgstr “自動更新”
+
+msgid "If now version is older, Please enable auto update."
+msgstr “如果現在的版本較舊，請啟用自動更新。”
+
+msgid "cloudflared program path"
+msgstr “cloudflared程序路徑”
+
+msgid "Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name."
+msgstr “自定義cloudflared的存放路徑，確保填寫完整的路徑及cloudflared名稱。”
+
+msgid "Token"
+msgstr “隧道 Token”
+
+msgid “You need to go to the official website to create a tunnel first， <br>and then copy a long string of token values starting with eyJh.<br> Be careful to copy correctly， otherwise the startup will fail.<br>You can also create a tunnel using the following command ：<a href='https://blog.outv.im/2021/cloudflared-tunnel/' target='_blank'>Tutorial-1</a>&nbsp; &nbsp; &nbsp; <a href='https：//zhuanlan.zhihu.com/p/621870045' target='_blank'>Tutorial-2</a>“
+msgstr “需要先去官網創建隧道，再複製以eyJh開頭的一長串token值，注意複製正確否則會啟動失敗<br>關於沒有信用卡可以使用命令創建隧道 ：<a href='https：//blog.outv.im/2021/cloudflared-tunnel/' target='_blank'>教程1</a>&nbsp; &nbsp; &nbsp; <a href='https：//zhuanlan.zhihu.com/p/621870045' target='_blank'>教程2</a>”
+
+msgid "Region"
+msgstr “線路選擇”
+
+msgid "Allows you to choose the regions to which connections are established. Currently the only available value is , which routes all connections through data centers in the United States. Default auto"
+msgstr “目前只能選擇美國線路us。 默認為：auto”
+
+msgid "Protocol"
+msgstr “傳輸協定”
+
+msgid "Specifies the protocol used to establish a connection between and the Cloudflare global network. Default auto"
+msgstr 「傳輸協議選擇」。 默認為：auto”
+
+msgid "Custom startup parameters"
+msgstr “自定義啟動參數”
+
+msgid "There is no need to add the program path here, just add the startup parameters normally. <br>Detailed command startup parameters:<a href='https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/ tunnel-run-parameters/' target='_blank'>cloudflared doc</a><br>Note: Each parameter must be added separately, for example, add the first parameter:tunnel <br> Second parameter:--no-autoupdate The third parameter--logfile /tmp/cloudflared.info The fourth parameter:run <br>You cannot add two parameters in one box, you can only click + input in multiple input boxes<br>If you need to output the log path, please set it: --logfile /tmp/cloudflared.info"
+msgstr “這裡不需要再加程序路徑，只需要正常添加啟動參數即可，詳細的命令啟動參數：<a href='https：//developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/ tunnel-run-parameters/' target='_blank'>cloudflared文檔</a><br>注意：每個參數必須單獨添加，如添加第一個參數tunnel 第二個參數--no-autoupdate 第三個參數--logfile /tmp/cloudflared.info 第四個參數run <br>一個框內不能添加兩個參數，多個參數點+多個框即可<br>如需輸出日誌路徑請設置 --logfile /tmp/cloudflared.info”
+
+msgid "Log level"
+msgstr “日誌等級”
+
+msgid "Specifies the verbosity of logging. The default info level doesn't produce much output, <br>but you may want to issue a warning when using this level in production.<br>Level from low to high：debug < info < warn < Error < Fatal"
+msgstr 「指定日誌記錄的詳細程度。 默認info級別不會產生太多輸出，但您可能希望warn在生產中使用該級別。 <br>等級由低到高：debug < info < warn < Error < Fatal”
+
+msgid "<input type=\"button\" class=\"cbi-button cbi-button-apply\" value=\"cloudflare.com\" onclick=\"window.open('https://one.dash.cloudflare.com')\" />"
+msgstr 
+
+msgid "Go to the official Zero Trust website to create or manage your cloudflared tunnel"
+msgstr "<input type=\"button\" class=\"cbi-button cbi-button-apply\" value=\"cloudflare.com\" onclick=\"window.open('https://one.dash.cloudflare.com')\" />"
+
+msgid "Go to the official Zero Trust website to create or manage your cloudflared tunnel"
+msgstr “進入官網Zero Trust創建或管理您的 cloudflared 隧道”
+
+msgid "Base Setting"
+msgstr “基本設置”
+
+msgid "Info"
+msgstr “資訊”
+

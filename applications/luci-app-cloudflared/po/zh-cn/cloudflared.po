@@ -20,16 +20,19 @@ msgid "Custom CMD"
 msgstr "自定义启动参数"
 
 msgid "Use custom commands. If you don't understand, don't enable it."
-msgstr "使用自定义的启动参数，若不懂请勿开启"
+msgstr "使用自定义的启动参数，若不懂请勿开启。"
 
-msgid "auto update"
+msgid "Auto update"
 msgstr "自动更新"
+
+msgid "If now version is older, Please enable auto update."
+msgstr "如果现在的版本较旧，请启用自动更新。"
 
 msgid "cloudflared program path"
 msgstr "cloudflared程序路径"
 
-msgid "Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name"
-msgstr "自定义cloudflared的存放路径,确保填写完整的路径及cloudflared名称"
+msgid "Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name."
+msgstr "自定义cloudflared的存放路径,确保填写完整的路径及cloudflared名称。"
 
 msgid "Token"
 msgstr "隧道 Token"
@@ -37,13 +40,13 @@ msgstr "隧道 Token"
 msgid "You need to go to the official website to create a tunnel first, <br>and then copy a long string of token values ​​starting with eyJh.<br> Be careful to copy correctly, otherwise the startup will fail.<br>You can also create a tunnel using the following command ：<a href='https://blog.outv.im/2021/cloudflared-tunnel/' target='_blank'>Tutorial-1</a>&nbsp;&nbsp;&nbsp;<a href='https://zhuanlan.zhihu.com/p/621870045' target='_blank'>Tutorial-2</a>"
 msgstr "需要先去官网创建隧道，再复制以eyJh开头的一长串token值，注意复制正确否则会启动失败<br>关于没有信用卡可以使用命令创建隧道 ：<a href='https://blog.outv.im/2021/cloudflared-tunnel/' target='_blank'>教程1</a>&nbsp;&nbsp;&nbsp;<a href='https://zhuanlan.zhihu.com/p/621870045' target='_blank'>教程2</a>"
 
-msgid "region"
+msgid "Region"
 msgstr "线路选择"
 
 msgid "Allows you to choose the regions to which connections are established. Currently the only available value is , which routes all connections through data centers in the United States. Default auto"
 msgstr "目前只能选择美国线路us。默认为:auto"
 
-msgid "protocol"
+msgid "Protocol"
 msgstr "传输协议"
 
 msgid "Specifies the protocol used to establish a connection between and the Cloudflare global network. Default auto"
@@ -74,4 +77,4 @@ msgid "Base Setting"
 msgstr "基本设置"
 
 msgid "Info"
-msgstr "日志记录"
+msgstr "信息"

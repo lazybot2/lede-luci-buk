@@ -15,13 +15,14 @@ e=t:option(Flag,"cmdenabled",translate("Custom CMD"),
 e.default=0
 e.rmempty=false
 
-e=t:option(Flag,"auto_update",translate("auto update"))
+e=t:option(Flag,"auto_update",translate("Auto update"),
+	translate("If now version is older, Please enable auto update."))
 e.default=0
 e.rmempty=false
 e:depends("cmdenabled", 0)
 
 cfbin = t:option(Value, "cfbin", translate("cloudflared program path"),
-	translate("Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name"))
+	translate("Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name."))
 cfbin.placeholder = "/usr/bin/cloudflared"
 cfbin.rmempty=false
 
@@ -30,13 +31,13 @@ e=t:option(TextValue,"token",translate("Token"),
 e.placeholder = "eyJhIjoiMzQ3NTNhNDBlZTg4NTYzMDU5YmUzN2U2ZDY4YjEzY2QiLCJ0IjoiNTJkMjkwYTktNmFiNy00NDM5LThlODYtMzhmYTI0NTBhZjNhIiwicyI6IlptRXlOekl4TURZdFpUa3dPUzAwTnprM0xUbGlaR1l0TWpNNVpUUTBNV0k0TTJNMSJ9"
 e:depends("cmdenabled", 0)
 
-region = t:option(ListValue, "region", translate("region"),
+region = t:option(ListValue, "region", translate("Region"),
 	translate("Allows you to choose the regions to which connections are established. Currently the only available value is , which routes all connections through data centers in the United States. Default auto"))
 region:value("auto")	
 region:value("us")	
 region:depends("cmdenabled", 0)
 
-protocol = t:option(ListValue, "protocol", translate("protocol"),
+protocol = t:option(ListValue, "protocol", translate("Protocol"),
 	translate("Specifies the protocol used to establish a connection between and the Cloudflare global network. Default auto"))
 protocol:value("auto")	
 protocol:value("quic")	
