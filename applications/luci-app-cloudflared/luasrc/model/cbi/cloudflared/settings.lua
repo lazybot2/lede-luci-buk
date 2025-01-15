@@ -21,7 +21,7 @@ e.default=0
 e.rmempty=false
 e:depends("cmdenabled", 0)
 
-cfbin = t:option(Value, "cfbin", translate("cloudflared program path"),
+cfbin = t:option(Value, "cfbin", translate("Program path"),
 	translate("Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name."))
 cfbin.placeholder = "/usr/bin/cloudflared"
 cfbin.rmempty=false

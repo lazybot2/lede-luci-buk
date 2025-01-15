@@ -28,8 +28,8 @@ msgstr "自动更新"
 msgid "If now version is older, Please enable auto update."
 msgstr "如果现在的版本较旧，请启用自动更新。"
 
-msgid "cloudflared program path"
-msgstr "cloudflared程序路径"
+msgid "Program path"
+msgstr "程序路径"
 
 msgid "Customize the cloudflared storage path and make sure to fill in the complete path and cloudflared name."
 msgstr "自定义cloudflared的存放路径,确保填写完整的路径及cloudflared名称。"
@@ -66,9 +66,6 @@ msgstr "指定日志记录的详细程度。默认info级别不会产生太多�
 
 msgid "<input type=\"button\" class=\"cbi-button cbi-button-apply\" value=\"cloudflare.com\" onclick=\"window.open('https://one.dash.cloudflare.com')\" />"
 msgstr 
-
-msgid "Go to the official Zero Trust website to create or manage your cloudflared tunnel"
-msgstr "<input type=\"button\" class=\"cbi-button cbi-button-apply\" value=\"cloudflare.com\" onclick=\"window.open('https://one.dash.cloudflare.com')\" />"
 
 msgid "Go to the official Zero Trust website to create or manage your cloudflared tunnel"
 msgstr  "进入官网Zero Trust创建或管理您的 cloudflared 隧道"
