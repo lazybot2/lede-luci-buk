@@ -18,20 +18,6 @@ local function get_new_port()
 	return new_port
 end
 
-local function get_noise_packets()
-	local noises = {}
-	uci:foreach(appname, "xray_noise_packets", function(n)
-		local noise = (n.enabled == "1") and {
-			type = n.type,
-			packet = n.packet,
-			delay = string.find(n.delay, "-") and n.delay or tonumber(n.delay)
-		} or nil
-		table.insert(noises, noise)
-	end)
-	if #noises == 0 then noises = nil end
-	return noises
-end
-
 local function get_domain_excluded()
 	local path = string.format("/usr/share/%s/domains_excluded", appname)
 	local content = fs.readfile(path)
@@ -58,12 +44,10 @@ function gen_outbound(flag, node, tag, proxy_table)
 		local proxy = 0
 		local proxy_tag = "nil"
 		local fragment = nil
-		local noise = nil
 		if proxy_table ~= nil and type(proxy_table) == "table" then
 			proxy = proxy_table.proxy or 0
 			proxy_tag = proxy_table.tag or "nil"
 			fragment = proxy_table.fragment or nil
-			noise = proxy_table.noise or nil
 		end
 
 		if node.type == "Xray" then
@@ -148,7 +132,7 @@ function gen_outbound(flag, node, tag, proxy_table)
 					mark = 255,
 					tcpMptcp = (node.tcpMptcp == "1") and true or nil,
 					tcpNoDelay = (node.tcpNoDelay == "1") and true or nil,
-					dialerProxy = (fragment or noise) and "dialerproxy" or nil
+					dialerProxy = fragment and "fragment" or nil
 				},
 				network = node.transport,
 				security = node.stream_security,
@@ -695,7 +679,7 @@ function gen_config(var)
 			end
 			if is_new_blc_node then
 				local blc_node = uci:get_all(appname, blc_node_id)
-				local outbound = gen_outbound(flag, blc_node, blc_node_tag, { fragment = xray_settings.fragment == "1" or nil, noise = xray_settings.noise == "1" or nil })
+				local outbound = gen_outbound(flag, blc_node, blc_node_tag, { fragment = xray_settings.fragment == "1" or nil })
 				if outbound then
 					table.insert(outbounds, outbound)
 					valid_nodes[#valid_nodes + 1] = blc_node_tag
@@ -714,7 +698,7 @@ function gen_config(var)
 			if is_new_node then
 				local fallback_node = uci:get_all(appname, fallback_node_id)
 				if fallback_node.protocol ~= "_balancing" then
-					local outbound = gen_outbound(flag, fallback_node, fallback_node_id, { fragment = xray_settings.fragment == "1" or nil, noise = xray_settings.noise == "1" or nil })
+					local outbound = gen_outbound(flag, fallback_node, fallback_node_id, { fragment = xray_settings.fragment == "1" or nil })
 					if outbound then
 						table.insert(outbounds, outbound)
 					else
@@ -879,17 +863,10 @@ function gen_config(var)
 							if xray_settings.fragment == "1" and not proxy_table.tag then
 								proxy_table.fragment = true
 							end
-							if xray_settings.noise == "1" and not proxy_table.tag then
-								proxy_table.noise = true
-							end
 							local outbound = gen_outbound(flag, _node, rule_name, proxy_table)
 							if outbound then
 								set_outbound_detour(_node, outbound, outbounds, rule_name)
-								if rule_name == "default" then
-									table.insert(outbounds, 1, outbound)
-								else
-									table.insert(outbounds, outbound)
-								end
+								table.insert(outbounds, outbound)
 								rule_outboundTag = rule_name
 							end
 						end
@@ -1033,7 +1010,7 @@ function gen_config(var)
 					end
 				end
 			end)
---[[
+
 			if default_outboundTag or default_balancerTag then
 				table.insert(rules, {
 					_flag = "default",
@@ -1043,7 +1020,7 @@ function gen_config(var)
 					network = "tcp,udp"
 				})
 			end
-]]
+
 			routing = {
 				domainStrategy = node.domainStrategy or "AsIs",
 				domainMatcher = node.domainMatcher or "hybrid",
@@ -1077,7 +1054,7 @@ function gen_config(var)
 				sys.call("touch /tmp/etc/passwall2/iface/" .. node.iface)
 			end
 		else
-			local outbound = gen_outbound(flag, node, nil, { fragment = xray_settings.fragment == "1" or nil, noise = xray_settings.fragment == "1" or nil })
+			local outbound = gen_outbound(flag, node, nil, { fragment = xray_settings.fragment == "1" or nil })
 			if outbound then
 				local default_outTag = set_outbound_detour(node, outbound, outbounds)
 				table.insert(outbounds, outbound)
@@ -1261,10 +1238,7 @@ function gen_config(var)
 					address = direct_dns_udp_server,
 					port = tonumber(direct_dns_udp_port) or 53,
 					network = "udp",
-					nonIPQuery = "skip",
-					blockTypes = {
-						65
-					}
+					nonIPQuery = "skip"
 				},
 				proxySettings = {
 					tag = "direct"
@@ -1444,18 +1418,17 @@ function gen_config(var)
 			}
 		}
 
-		if xray_settings.fragment == "1" or xray_settings.noise == "1" then
+		if xray_settings.fragment == "1" then
 			table.insert(outbounds, {
 				protocol = "freedom",
-				tag = "dialerproxy",
+				tag = "fragment",
 				settings = {
 					domainStrategy = (direct_dns_query_strategy and direct_dns_query_strategy ~= "") and direct_dns_query_strategy or "UseIP",
-					fragment = (xray_settings.fragment == "1") and {
+					fragment = {
 						packets = (xray_settings.fragment_packets and xray_settings.fragment_packets ~= "") and xray_settings.fragment_packets,
 						length = (xray_settings.fragment_length and xray_settings.fragment_length ~= "") and xray_settings.fragment_length,
 						interval = (xray_settings.fragment_interval and xray_settings.fragment_interval ~= "") and xray_settings.fragment_interval
-					} or nil,
-					noises = (xray_settings.noise == "1") and get_noise_packets() or nil
+					}
 				},
 				streamSettings = {
 					sockopt = {

@@ -619,26 +619,22 @@ function gen_config_server(node)
 	end
 
 	if node.protocol == "tuic" then
-		if node.uuid then
-			local users = {}
-			for i = 1, #node.uuid do
-				users[i] = {
-					name = node.uuid[i],
-					uuid = node.uuid[i],
+		tls.alpn = (node.tuic_alpn and node.tuic_alpn ~= "") and {
+			node.tuic_alpn
+		} or nil
+		protocol_table = {
+			users = {
+				{
+					name = "user1",
+					uuid = node.uuid,
 					password = node.password
 				}
-			end
-			tls.alpn = (node.tuic_alpn and node.tuic_alpn ~= "") and {
-				node.tuic_alpn
-			} or nil
-			protocol_table = {
-				users = users,
-				congestion_control = node.tuic_congestion_control or "cubic",
-				zero_rtt_handshake = (node.tuic_zero_rtt_handshake == "1") and true or false,
-				heartbeat = node.tuic_heartbeat .. "s",
-				tls = tls
-			}
-		end
+			},
+			congestion_control = node.tuic_congestion_control or "cubic",
+			zero_rtt_handshake = (node.tuic_zero_rtt_handshake == "1") and true or false,
+			heartbeat = node.tuic_heartbeat .. "s",
+			tls = tls
+		}
 	end
 
 	if node.protocol == "hysteria2" then
@@ -758,8 +754,6 @@ function gen_config(var)
 	local dns_listen_port = var["-dns_listen_port"]
 	local direct_dns_port = var["-direct_dns_port"]
 	local direct_dns_udp_server = var["-direct_dns_udp_server"]
-	local direct_dns_tcp_server = var["-direct_dns_tcp_server"]
-	local direct_dns_dot_server = var["-direct_dns_dot_server"]
 	local direct_dns_query_strategy = var["-direct_dns_query_strategy"]
 	local remote_dns_port = var["-remote_dns_port"]
 	local remote_dns_udp_server = var["-remote_dns_udp_server"]
@@ -1302,7 +1296,7 @@ function gen_config(var)
 		if remote_dns_fake then
 			dns.fakeip = {
 				enabled = true,
-				inet4_range = "198.18.0.0/15",
+				inet4_range = "198.18.0.0/16",
 				inet6_range = "fc00::/18",
 			}
 			
@@ -1322,7 +1316,7 @@ function gen_config(var)
 			}
 		end
 	
-		if direct_dns_udp_server or direct_dns_tcp_server or direct_dns_dot_server then
+		if direct_dns_udp_server then
 			local domain = {}
 			local nodes_domain_text = sys.exec('uci show passwall | grep ".address=" | cut -d "\'" -f 2 | grep "[a-zA-Z]$" | sort -u')
 			string.gsub(nodes_domain_text, '[^' .. "\r\n" .. ']+', function(w)
@@ -1341,26 +1335,12 @@ function gen_config(var)
 			elseif direct_dns_query_strategy == "UseIPv6" then
 				direct_strategy = "ipv6_only"
 			end
-
-			local direct_dns_server, port
-			if direct_dns_udp_server then
-				port = tonumber(direct_dns_port) or 53
-				direct_dns_server = "udp://" .. direct_dns_udp_server .. ":" .. port
-			elseif direct_dns_tcp_server then
-				port = tonumber(direct_dns_port) or 53
-				direct_dns_server = "tcp://" .. direct_dns_tcp_server .. ":" .. port
-			elseif direct_dns_dot_server then
-				port = tonumber(direct_dns_port) or 853
-				if direct_dns_dot_server:find(":") == nil then
-					direct_dns_server = "tls://" .. direct_dns_dot_server .. ":" .. port
-				else
-					direct_dns_server = "tls://[" .. direct_dns_dot_server .. "]:" .. port
-				end
-			end
+	
+			local port = tonumber(direct_dns_port) or 53
 	
 			table.insert(dns.servers, {
 				tag = "direct",
-				address = direct_dns_server,
+				address = "udp://" .. direct_dns_udp_server .. ":" .. port,
 				address_strategy = "prefer_ipv6",
 				strategy = direct_strategy,
 				detour = "direct",

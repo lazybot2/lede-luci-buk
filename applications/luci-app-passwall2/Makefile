@@ -5,11 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-passwall2
-PKG_VERSION:=1.31-1
+PKG_VERSION:=1.30-3
 PKG_RELEASE:=
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy \
+	CONFIG_PACKAGE_$(PKG_NAME)_Nftables_Transparent_Proxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat \
@@ -36,6 +37,13 @@ LUCI_DEPENDS:=+coreutils +coreutils-base64 +coreutils-nohup +curl \
 define Package/$(PKG_NAME)/config
 menu "Configuration"
 
+config PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat
+	depends on PACKAGE_ip6tables
+	bool "Include IPv6 Nat"
+	default n
+
+if PACKAGE_$(PKG_NAME)
+
 config PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy
 	bool "Iptables Transparent Proxy"
 	select PACKAGE_dnsmasq-full
@@ -51,12 +59,15 @@ config PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy
 	select PACKAGE_kmod-ipt-nat
 	default y if ! PACKAGE_firewall4
 
-config PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat
-	depends on PACKAGE_ip6tables
-	bool "Include IPv6 Nat"
-	default n
-
-if PACKAGE_$(PKG_NAME)
+config PACKAGE_$(PKG_NAME)_Nftables_Transparent_Proxy
+	bool "Nftables Transparent Proxy"
+	select PACKAGE_dnsmasq-full
+	select PACKAGE_dnsmasq_full_nftset
+	select PACKAGE_nftables
+	select PACKAGE_kmod-nft-socket
+	select PACKAGE_kmod-nft-tproxy
+	select PACKAGE_kmod-nft-nat
+	default y if PACKAGE_firewall4
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy
 	bool "Include Haproxy"
